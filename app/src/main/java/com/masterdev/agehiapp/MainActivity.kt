@@ -1,5 +1,6 @@
 package com.masterdev.agehiapp
 
+import android.icu.number.IntegerWidth
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -13,6 +14,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btnAdd: Button
     private lateinit var btnDelete: Button
     private lateinit var btnUpdate: Button
+    private lateinit var btnRead: Button
     private lateinit var edt: EditText
     private lateinit var idUpdate: EditText
 
@@ -25,6 +27,7 @@ class MainActivity : AppCompatActivity() {
         btnAdd = findViewById(R.id.btnAdd)
         btnDelete = findViewById(R.id.btn_delete)
         btnUpdate = findViewById(R.id.btnUpdate)
+        btnRead = findViewById(R.id.btnRead)
         edt = findViewById(R.id.editTextTextPersonName)
         idUpdate = findViewById(R.id.editTextTextPersonName2)
 
@@ -50,6 +53,12 @@ class MainActivity : AppCompatActivity() {
             }else{
                 databaseHandler.updateUser(id, user)
             }
+        }
+
+        btnRead.setOnClickListener {
+            val id = idUpdate.text
+            var username = databaseHandler.getUserById(id.toString().toInt())
+            Toast.makeText(this, username, Toast.LENGTH_SHORT).show()
         }
 
     }

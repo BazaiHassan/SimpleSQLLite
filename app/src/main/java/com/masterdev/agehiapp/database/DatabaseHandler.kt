@@ -46,4 +46,14 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, "MyDatabase"
         db.update(TABLE_USER, contentValues, "${ID}=?", arrayOf(id))
     }
 
+    fun getUserById(id:Int):String{
+        var query = "select * from $TABLE_USER where $ID = $id"
+        val db = this.readableDatabase
+        val cursor = db.rawQuery(query,null)
+        cursor.moveToNext()
+        val username = cursor.getString(cursor.getColumnIndexOrThrow(USERNAME))
+
+        return username
+    }
+
 }

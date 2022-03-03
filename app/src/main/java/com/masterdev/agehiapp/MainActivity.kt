@@ -1,11 +1,15 @@
 package com.masterdev.agehiapp
 
+import android.app.Dialog
 import android.content.Intent
 import android.icu.number.IntegerWidth
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Window
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import com.masterdev.agehiapp.database.DatabaseHandler
 import com.masterdev.agehiapp.database.RecyclerActivity
@@ -44,8 +48,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         btnDelete.setOnClickListener {
+
             val id = edt.text.toString()
-            databaseHandler.removeUser(id)
+            showDialog(id,databaseHandler)
+
         }
 
         btnUpdate.setOnClickListener {
@@ -70,5 +76,30 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+    }
+
+
+    private fun showDialog(id:String, database:DatabaseHandler){
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.custom_dialog)
+        val btnY = dialog.findViewById<Button>(R.id.btnYes)
+        val itemQuestion = dialog.findViewById<TextView>(R.id.textViewB)
+        itemQuestion.text = id
+        btnY.setOnClickListener {
+            database.removeUser(id)
+            dialog.dismiss()
+        }
+
+        val btnN = dialog.findViewById<Button>(R.id.btnNo)
+        btnN.setOnClickListener {
+            dialog.cancel()
+        }
+
+        dialog.show()
+
+        val window = dialog.window
+        window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT)
     }
 }

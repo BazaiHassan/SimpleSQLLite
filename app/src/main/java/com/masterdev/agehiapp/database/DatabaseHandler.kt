@@ -56,4 +56,18 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, "MyDatabase"
         return username
     }
 
+    fun getAllUsername():List<String>{
+        val query = "select * from $TABLE_USER"
+        val db = this.readableDatabase
+        var usernameArray = mutableListOf<String>()
+        val cursor = db.rawQuery(query, null)
+
+        while (cursor.moveToNext()){
+            var username = cursor.getString(cursor.getColumnIndexOrThrow(USERNAME))
+            usernameArray.add(username)
+        }
+
+        return usernameArray
+    }
+
 }
